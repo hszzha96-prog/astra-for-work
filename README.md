@@ -35,6 +35,10 @@ An interactive 3D atlas of 20 recurring workflows. Each of the seven cross-group
 
 四类工作分别是办公协作、创意设计、课程学习和求职发展，各 5 项。加上 4 个分类中心和白色 Codex 根节点，全图有 **25 个节点**。其中 **24 条归属关系**组成目录，另有 **7 条有用途说明的跨组关系**，合计 **31 条连线**。坐标记录初始布局，工时、频次和优先级可以在取得相应记录后另行建模。
 
+## Starlink 太阳观测器测试
+
+v0.3 回归测试覆盖待办分类、轨道计算、跨日完成、Excel 导入与 CSV 导出。可用本地离线 HTML 跑完整应用测试，也可单独运行 NAB 日级异常检测的合成实验。[测试代码、运行方法与历史回放摘要](tests/starlink-v03/README.md)
+
 ## 许可
 
 本仓库的原创代码、文档和示例网络数据采用 [MIT 许可证](LICENSE)。两支视频、其中的原创配乐和预览图采用 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)。署名可写作 **Astra for Work contributors**，附本仓库链接。学习笔记中链接的参考项目各自提供其许可证。
