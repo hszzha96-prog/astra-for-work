@@ -1,0 +1,14 @@
+{
+  "name": "astra-for-work-render",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "render": "node render.cjs"
+  },
+  "engines": {
+    "node": ">=18.3.0"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "0.1.100"
+  }
+}

@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0c0e10">
+<title>工作星图 · Astra for Work</title>
+<style>
+:root{color-scheme:dark;--bg:#0b0d0f;--surface:#101215;--line:#303030;--paper:#f0eee8;--dim:#aaa9a4;--quiet:#8c8d8a;--gold:#e8bb65;--focus:#e8bb65;--mono:"IBM Plex Mono","SFMono-Regular",Consolas,monospace;--sans:"Inter","PingFang SC","Microsoft YaHei",system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--paper);font:16px/1.45 var(--sans);-webkit-font-smoothing:antialiased}button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}button:focus-visible,canvas:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}button:disabled{opacity:.4;cursor:default}button:hover:not(:disabled){filter:brightness(1.2)}button:active:not(:disabled){transform:translateY(1px)}.wrap{max-width:1800px;margin:auto}.mast{display:flex;align-items:center;gap:16px;padding:23px 30px 19px}.symbol{width:50px;height:50px;display:grid;place-items:center;border:1px solid #544638;border-radius:13px;background:#191813}.symbol span{display:grid;place-items:center;width:31px;height:31px;border:1px solid #9c7c43;border-radius:50%;transform:rotate(-30deg);position:relative}.symbol span:after{content:"";position:absolute;width:38px;height:11px;border:1px solid #e0b871;border-radius:50%}.symbol span:before{content:"";width:6px;height:6px;border-radius:50%;background:#f4d799;box-shadow:0 0 10px #c9974c}.eyebrow,.micro,.stat,.num{font-family:var(--mono);font-size:12px;letter-spacing:.08em}.eyebrow{color:var(--gold);font-weight:600}.mast h1{font-size:clamp(24px,2.5vw,36px);letter-spacing:.04em;line-height:1.15;margin:4px 0 0}.mast-right{margin-left:auto;display:flex;align-items:center;gap:24px}.progress-read small{color:var(--dim);font-size:13px;margin-right:8px}.progress-read strong{font:500 22px var(--mono);color:var(--paper)}.progress-read i{color:var(--quiet);font:normal 14px var(--mono)}.outline,.action{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:38px;padding:7px 14px;border:1px solid #42413d;border-radius:6px;font-size:14px;color:#e8e2d6;background:#1c1c1b}.action{color:#211b0d;background:var(--gold);border-color:var(--gold);font-weight:650}.icon{width:17px;height:17px;display:inline-block;vertical-align:middle;flex:none;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}.bands{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;padding:0 30px 18px;border-bottom:1px solid var(--line)}.band{padding:2px 0;min-width:0;text-align:left}.band-cap{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#c6c4bd;gap:6px}.band-cap em{font:normal 12px var(--mono);color:var(--quiet)}.ticks{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-top:7px}.tick{display:block;height:3px;border-radius:2px;background:#323333}.tick.lit{background:var(--tone);box-shadow:0 0 5px color-mix(in srgb,var(--tone) 28%,transparent)}
+.workspace{display:grid;grid-template-columns:clamp(230px,21.5vw,310px) minmax(0,1fr);grid-template-rows:minmax(0,1fr);height:calc(100svh - 153px);min-height:590px}.sidebar{display:flex;flex-direction:column;min-height:0;border-right:1px solid var(--line);background:linear-gradient(125deg,#151719,#101214 65%);z-index:5}.sh,.stage-head{height:57px;display:flex;align-items:center;justify-content:space-between;padding:0 21px;border-bottom:1px solid var(--line);flex:none}.sh h2,.stage-head h2{font-size:15px;font-weight:550;margin:0}.micro{color:var(--quiet)}.index{padding:6px 10px 14px;overflow:auto;scrollbar-width:thin;scrollbar-color:#454543 transparent}.grp{padding:4px 0;border-bottom:1px solid #26292a}.gbutton{width:100%;min-height:48px;display:flex;align-items:center;gap:9px;padding:0 9px;text-align:left;font-size:15px;font-weight:600}.dot{width:8px;height:8px;display:inline-block;background:var(--tone);border-radius:50%;flex:none}.gbutton .num{margin-left:auto;color:var(--quiet)}.caret{width:7px;height:7px;border-right:1px solid var(--quiet);border-bottom:1px solid var(--quiet);transform:rotate(-45deg);margin:0 4px}.open .caret{transform:rotate(45deg)}.items{display:none;padding:0 0 5px}.open .items{display:block}.row{display:flex;width:100%;align-items:center;gap:10px;padding:8px 9px 8px 11px;border:1px solid transparent;border-radius:5px;color:#acadaa;font-size:14px;text-align:left;min-height:37px}.row:hover,.gbutton:hover,.band:hover{background:#ffffff08}.row .seq{font:12px var(--mono);color:#757876}.row.selected{color:#f1ede2;border-color:color-mix(in srgb,var(--tone) 59%,transparent);background:linear-gradient(90deg,color-mix(in srgb,var(--tone) 13%,transparent),#161716)}.selected .seq{color:var(--tone)}.state{width:5px;height:5px;border:1px solid #575853;border-radius:50%;margin-left:auto;flex:none}.seen .state{background:var(--tone);border-color:var(--tone)}.selected .state{box-shadow:0 0 7px var(--tone)}.stage{display:grid;grid-template-rows:57px minmax(300px,1fr) auto auto;min-width:0;min-height:0;background:#080a0c}.stage-head{height:auto;background:#101214}.stage-title{display:flex;align-items:center;gap:9px}.stage-title .icon{color:var(--gold)}.stat{color:#a7a8a2;letter-spacing:.01em}.stat b{color:#e9e6dd;font-weight:500}.viewport{position:relative;min-height:0;overflow:hidden;isolation:isolate;background:#07090b}.viewport canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}.viewport canvas:active{cursor:grabbing}.view-label{position:absolute;top:17px;left:21px;color:#afada5;pointer-events:none;font:12px var(--mono);letter-spacing:.05em;display:flex;align-items:center;gap:7px}.live-bar{width:14px;height:2px;background:var(--focus)}.cam-tools{position:absolute;right:16px;bottom:14px;display:flex;align-items:center;gap:1px;background:#141618ed;border:1px solid #42403a;border-radius:6px}.cam-tools button,.icon-btn{min-width:35px;min-height:35px;display:grid;place-items:center;border-radius:5px}.cam-tools button:hover,.icon-btn:hover{background:#ffffff0f}.view-help{position:absolute;bottom:17px;left:21px;color:#929490;font-size:12px;pointer-events:none}.detail{background:linear-gradient(105deg,#191b1b,#121416 75%);padding:16px 22px 15px;border-top:1px solid var(--line);position:relative}.detail:before{content:"";position:absolute;top:-1px;left:22px;width:46px;height:2px;background:var(--focus)}.detail-grid{display:grid;grid-template-columns:minmax(180px,.8fr) minmax(240px,1.45fr);gap:22px;align-items:start}.detail .tag{font-size:12px;letter-spacing:.05em;color:var(--focus)}.detail h3{font-size:clamp(18px,1.8vw,24px);font-weight:580;margin:4px 0}.detail p{font-size:14px;line-height:1.65;color:#c7c7c1;margin:0}.relations{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}.relation{font-size:12px;text-align:left;color:#d7d3c5;border-bottom:1px dashed #797362;padding:1px 0;min-height:23px;margin-right:7px}.playbar{padding:12px 20px;display:flex;align-items:center;gap:8px;border-top:1px solid var(--line);background:#101215}.playbar .icon-btn{border:1px solid #383a37;color:#d8d6ce}.play-status{font-size:13px;color:var(--dim);margin-left:auto}.mobile-only{display:none}.shade{display:none}svg.symbols{position:absolute;width:0;height:0;overflow:hidden}
+@media(min-width:1700px){.workspace{max-height:1020px}.wrap{border-left:1px solid var(--line);border-right:1px solid var(--line)}}
+@media(max-width:800px){.mast{padding:17px 16px 13px;gap:10px}.symbol{width:41px;height:41px}.eyebrow{font-size:10px}.mast-right{gap:10px}.bands{padding:0 16px 13px;gap:10px}.band-cap{font-size:12px}.workspace{grid-template-columns:1fr;height:auto;min-height:0}.stage{grid-template-rows:47px minmax(305px,54svh) auto auto}.mobile-only{display:inline-flex}.sh .mobile-only{display:grid}.sidebar{display:none}.drawer-open .sidebar{display:flex;position:fixed;left:0;top:0;bottom:0;width:min(84vw,320px);z-index:20;box-shadow:16px 0 60px #0009}.drawer-open .shade{display:block;z-index:19;background:#0009;position:fixed;inset:0;width:100%;height:100%}.stage-head{padding:0 15px}.stage-title .micro{display:none}.stage-title .mobile-only{min-height:34px;font-size:13px;min-width:50px;background:#212222;border:1px solid #444;border-radius:5px;align-items:center;justify-content:center}.detail-grid{grid-template-columns:1fr;gap:3px}.detail{padding:12px 16px 10px}.view-label,.view-help{left:15px}.cam-tools{right:12px}.playbar{padding:11px 15px}.progress-read small{display:none}.progress-read strong{font-size:19px}.progress-read i{font-size:12px}.mast-right .outline{padding:6px 10px;font-size:13px}.detail h3{margin:2px 0}.detail .relations{margin-top:3px}.view-help{font-size:11px}.stat{font-size:12px}}
+@media(max-width:420px){.mast .symbol{display:none}.band-cap em{font-size:10px}.stat .divider{margin:0 1px}.play-status{font-size:12px}.stage-title{gap:6px}.detail p{font-size:13px}.bands{gap:7px}.playbar{gap:6px}.stage{grid-template-rows:44px minmax(292px,50svh) auto auto}.stage-title h2{font-size:14px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style></head>
+<body><svg class="symbols" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+<symbol id="i-map" viewBox="0 0 24 24"><circle cx="5" cy="15" r="2.5"/><circle cx="12" cy="5" r="2.5"/><circle cx="19" cy="16" r="2.5"/><path d="m6.5 12.9 4-5.8m3 0 4 6.5m-10 .8 8.9 1.2"/></symbol>
+<symbol id="i-fit" viewBox="0 0 24 24"><path d="M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5"/><circle cx="12" cy="12" r="2"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14m-7-7v14"/></symbol><symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+<symbol id="i-replay" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6"/></symbol>
+<symbol id="i-prev" viewBox="0 0 24 24"><path d="M6 6v12m12-12-9 6 9 6z"/></symbol><symbol id="i-next" viewBox="0 0 24 24"><path d="M18 6v12M6 6l9 6-9 6z"/></symbol>
+<symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14m8-14v14" stroke-width="3"/></symbol><symbol id="i-play" viewBox="0 0 24 24"><path d="m7 4 12 8-12 8z"/></symbol>
+</defs></svg>
+<div class="wrap"><header class="mast"><div class="symbol" aria-hidden="true"><span></span></div><div><div class="eyebrow">ASTRA / WORK ATLAS</div><h1>工作星图</h1></div><div class="mast-right"><div class="progress-read"><small>已点亮工作</small><strong id="progress">01</strong><i> / 20</i></div><button class="outline" id="all"><svg class="icon"><use href="#i-fit"/></svg>查看全图</button></div></header>
+<nav class="bands" id="bands" aria-label="分类点亮进度"></nav>
+<div class="workspace"><aside class="sidebar" id="sidebar" aria-label="工作目录"><div class="sh"><h2>工作目录</h2><span class="micro">INDEX / 20</span><button class="icon-btn mobile-only" id="close" aria-label="关闭目录">×</button></div><nav class="index" id="index" aria-label="工作清单"></nav></aside><button id="shade" class="shade" tabindex="-1" aria-label="关闭目录"></button>
+<main class="stage"><div class="stage-head"><div class="stage-title"><svg class="icon"><use href="#i-map"/></svg><h2>三维关系图</h2><button class="mobile-only" id="open" aria-controls="sidebar" aria-expanded="false">目录</button></div><div class="stat"><b id="nodes">03</b> 节点 <span class="divider">·</span> <b id="links">02</b> 连线</div></div>
+<div class="viewport"><canvas id="sky" tabindex="0" aria-label="可旋转的三维工作星图。也可在工作目录选择节点。"></canvas><div class="view-label"><span class="live-bar"></span><span id="cameraMode">节点近景</span></div><div class="view-help" id="help">拖动旋转 · 滚轮缩放</div><div class="cam-tools"><button id="minus" aria-label="缩小" title="缩小"><svg class="icon"><use href="#i-minus"/></svg></button><button id="plus" aria-label="放大" title="放大"><svg class="icon"><use href="#i-plus"/></svg></button><button id="fit" aria-label="适配已点亮节点" title="适配已点亮节点"><svg class="icon"><use href="#i-fit"/></svg></button></div></div>
+<section class="detail" aria-label="当前节点详情"><div class="detail-grid"><div><div class="tag" id="detailTag"></div><h3 id="detailName"></h3></div><div><p id="detailText"></p><div class="relations" id="relations"></div></div></div></section>
+<div class="playbar"><button class="action" id="play"></button><button class="icon-btn" id="prev" title="上一项" aria-label="上一项"><svg class="icon"><use href="#i-prev"/></svg></button><button class="icon-btn" id="next" title="下一项" aria-label="下一项"><svg class="icon"><use href="#i-next"/></svg></button><button class="icon-btn" id="replay" title="从 Teams 重播" aria-label="从 Teams 重播"><svg class="icon"><use href="#i-replay"/></svg></button><span class="play-status" id="status"></span></div>
+</main></div></div>
+<script>
+const GROUPS = [
+  {
+    id: "office", name: "办公协作", en: "WORK", color: "#E8BB65",
+    items: [
+      {id:"teams", name:"Teams 小组协作", en:"Team collaboration", short:"Teams", detail:"梳理小组分工、合并成员反馈，检查讲稿之间的衔接。Teams 是本次指定的开场入口。"},
+      {id:"archive", name:"Dropbox 资料归档", en:"Source archive", short:"资料归档", detail:"按课程或摄影项目调取课件与原片，让后续制作能回到同一份来源。"},
+      {id:"news", name:"资讯收集与整理", en:"Research intake", short:"资讯整理", detail:"把点点资讯、小红书笔记和来源链接放在一起，留下可追溯的原始材料。"},
+      {id:"review", name:"日常工作复盘", en:"Work review", short:"工作复盘", detail:"从对话工作包提取完成事项、客户反馈和待调整的细节，写入每日或每周复盘。"},
+      {id:"schedule", name:"日程与学习提醒", en:"Scheduling", short:"日程提醒", detail:"把定期自学、每周岗位扫描和线下活动安排进日程，跟踪下一次行动。"}
+    ]
+  },
+  {
+    id: "design", name: "创意设计", en: "DESIGN", color: "#F19259",
+    items: [
+      {id:"film", name:"胶片调色与修图", en:"Film grading", short:"胶片调色", detail:"根据原片光线调整影调、颗粒与裁切，用不同照片检验同一套胶片预设。"},
+      {id:"exposure", name:"双重曝光配片", en:"Double exposure", short:"双重曝光", detail:"从照片库挑出可以叠合的两张素材，分别试做彩色与黑白版本，再按反馈复选。"},
+      {id:"triptych", name:"三拼照片叙事", en:"Photo triptychs", short:"三拼叙事", detail:"把三张照片编排成一组，用画面顺序、留白和色调建立连贯的观看节奏。"},
+      {id:"silhouette", name:"剪影选片与成片", en:"Silhouette studies", short:"剪影创作", detail:"从徕卡图库选出轮廓清楚的原片，比较不同剪影强度，按编号整理成片。"},
+      {id:"slides", name:"演示稿与图表设计", en:"Presentation design", short:"演示设计", detail:"为课程汇报安排图表、页面顺序和口语讲稿，并根据组员反馈调整转场。"}
+    ]
+  },
+  {
+    id: "learn", name: "课程学习", en: "LEARNING", color: "#76C7C1",
+    items: [
+      {id:"abd", name:"ABD 开卷手册", en:"Open-book handbook", short:"ABD 手册", detail:"把每周讲义整理为可检索的知识点、使用条件和英文答题模板。"},
+      {id:"pal", name:"PAL 需求预测", en:"Demand forecasting", short:"PAL 预测", detail:"用 Iowa Liquor Sales 数据预测门店与品类的下周需求，比较基线和模型表现。"},
+      {id:"exam", name:"模拟题与错题复盘", en:"Exam practice", short:"模拟题复盘", detail:"从读题、判断方法到组织英文答案，记录做题痕迹与需要再次巩固的知识点。"},
+      {id:"ted", name:"TED 双语语料", en:"Bilingual corpus", short:"双语语料", detail:"用视频和阅读材料积累双语表达，把标记的词汇、题目和反馈归到对应语料条目。"},
+      {id:"selfstudy", name:"Consumer 与 Platform 自学", en:"Analytics self-study", short:"分析课自学", detail:"用彩色手册和随机测试按章节推进 Consumer Analytics 与 Platform Analytics 的自学。"}
+    ]
+  },
+  {
+    id: "career", name: "求职发展", en: "CAREER", color: "#C2A1DD",
+    items: [
+      {id:"scan", name:"新加坡岗位扫描", en:"Opportunity scan", short:"岗位扫描", detail:"定期检索新加坡的数据分析、商业分析与 BI 实习和应届机会，筛出匹配职位。"},
+      {id:"tracker", name:"岗位调度台", en:"Application tracker", short:"岗位调度台", detail:"按状态整理岗位，跟踪投递进度，为每一条机会保留独立岗位卡入口。"},
+      {id:"jobcard", name:"岗位卡 Dashboard", en:"Role dashboards", short:"岗位卡", detail:"把职位要求、能力匹配与准备材料写进一张可浏览的岗位卡，沿用 YouTrip、Monee 等案例的做法。"},
+      {id:"cv", name:"定制英文简历", en:"Targeted CV", short:"定制简历", detail:"对照职位描述提取核心能力，从已有经历中挑出证据，调整英文表述并记录版本。"},
+      {id:"interview", name:"面试题库与模拟问答", en:"Interview practice", short:"模拟面试", detail:"根据职位描述、面经与 AI Agent 资料生成问题，用可勾选的题目练习回答。"}
+    ]
+  }
+];
+
+const CROSS = [
+  {source:"teams",target:"slides",label:"组员反馈 → 讲稿转场",detail:"小组汇报中，成员对论点衔接的反馈用于修订讲稿与页面次序。"},
+  {source:"archive",target:"abd",label:"课件 → 开卷手册",detail:"Dropbox 中的 ABD 课件为各周手册提供原始内容。"},
+  {source:"archive",target:"exposure",label:"原片 → 双重曝光配片",detail:"双重曝光项目从 Dropbox 的徕卡图库挑选可叠合的原片。"},
+  {source:"pal",target:"slides",label:"预测结果 → 汇报图表",detail:"PAL 项目的模型比较、基线和特征实验进入小组汇报与模型讲稿。"},
+  {source:"schedule",target:"selfstudy",label:"每日提醒 → 自学任务",detail:"Consumer 与 Platform 的章节自学任务按日程推进。"},
+  {source:"schedule",target:"scan",label:"每周提醒 → 岗位扫描",detail:"新加坡实习和应届岗位按周扫描。"},
+  {source:"news",target:"interview",label:"面经原帖 → 面试准备",detail:"小红书上收集的面经为面试流程和问题练习提供参考。"}
+];
+
+(function () {
+  'use strict';
+  window.makeSky = function makeSky(canvas, { groups, items, cross = [], onPick, onManual }) {
+    const ctx = canvas.getContext('2d', { alpha: true });
+    if (!ctx) throw new Error('当前设备无法创建星图画布。');
+    const PI2 = Math.PI * 2;
+    const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const font = '"PingFang SC","Microsoft YaHei",system-ui,sans-serif';
+    const mono = '"SFMono-Regular",Consolas,monospace';
+    const root = { id: 'codex', name: 'Codex', type: 'root', color: '#f4f4e9', x: 0, y: 2, z: 12 };
+    const anchors = [
+      [-139, 79, 38], [128, 88, -35], [-148, -92, -41], [130, -105, 44]
+    ];
+    let seed = 26981;
+    const random = () => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296; };
+    const rgb = color => {
+      let value = String(color || '#e4b362').replace('#', '');
+      if (value.length === 3) value = value.split('').map(c => c + c).join('');
+      const n = parseInt(value, 16);
+      return Number.isFinite(n) ? [n >> 16, (n >> 8) & 255, n & 255].join(',') : '226,178,98';
+    };
+    const rgba = (color, alpha) => 'rgba(' + color + ',' + clamp(alpha, 0, 1) + ')';
+    const nodes = [root], byId = new Map([[root.id, root]]);
+    const edges = [];
+    groups.forEach((group, gi) => {
+      const [x, y, z] = anchors[gi % anchors.length];
+      const center = { ...group, x, y, z, type: 'group', index: gi };
+      nodes.push(center); byId.set(center.id, center);
+      edges.push({ source: root.id, target: center.id, type: 'trunk' });
+      const members = items.filter(item => item.group === group.id);
+      members.forEach((item, j) => {
+        const angle = (j / members.length) * PI2 - 2.0 + gi * .64 + (random() - .5) * .24;
+        const radius = 40 + random() * 25;
+        const nx = x + Math.cos(angle) * radius;
+        const ny = y + Math.sin(angle) * radius * .94;
+        const nz = z + (random() - .5) * 78;
+        const node = { ...item, type: 'item', color: center.color, x: nx, y: ny, z: nz,
+          tx: nx, ty: ny, tz: nz, vx: 0, vy: 0, vz: 0, index: j, phase: random() * PI2 };
+        nodes.push(node); byId.set(node.id, node);
+        edges.push({ source: center.id, target: node.id, type: 'branch' });
+      });
+    });
+    cross.forEach(edge => {
+      if (byId.has(edge.source) && byId.has(edge.target)) edges.push({ ...edge, type: 'cross' });
+    });
+    nodes.forEach(n => { n.rgb = rgb(n.color); });
+    const particles = nodes.filter(n => n.type === 'item');
+    // Balance the spring on each membership link against local repulsion in all three dimensions.
+    // Gentle anchor forces preserve class identity and keep the same atlas across tours.
+    for (let step = 0; step < 155; step++) {
+      for (const p of particles) {
+        const hub = byId.get(p.group);
+        const dx = p.x - hub.x, dy = p.y - hub.y, dz = p.z - hub.z;
+        const d = Math.hypot(dx, dy, dz) || 1;
+        const spring = (57 - d) * .034 / d;
+        p.vx += dx * spring + (p.tx - p.x) * .021;
+        p.vy += dy * spring + (p.ty - p.y) * .021;
+        p.vz += dz * spring + (p.tz - p.z) * .021;
+      }
+      for (let i = 0; i < particles.length; i++) {
+        const a = particles[i];
+        for (let j = i + 1; j < particles.length; j++) {
+          const b = particles[j];
+          const dx = a.x-b.x, dy = a.y-b.y, dz = a.z-b.z;
+          const d = Math.max(2, Math.hypot(dx, dy, dz));
+          const strength = 245 / (d * d * d);
+          a.vx += dx * strength; a.vy += dy * strength; a.vz += dz * strength;
+          b.vx -= dx * strength; b.vy -= dy * strength; b.vz -= dz * strength;
+        }
+      }
+      for (const p of particles) {
+        p.x += p.vx *= .68; p.y += p.vy *= .68; p.z += p.vz *= .68;
+      }
+    }
+    const dust = Array.from({length: 620}, () => ({ x: random(), y: random(), r: .35 + random() ** 2.8 * 1.08,
+      depth: .25 + random() * .75, opacity: .19 + random() ** 1.85 * .65, phase: random() * PI2,
+      color: random() < .24 ? '228,205,166' : '186,204,211' }));
+    let width = 0, height = 0, pixelRatio = 1, focal = 400;
+    let focus = root.id, mode = 'overview', frame = 0, dead = false, hover = null, lastFrame = performance.now();
+    let visible = new Set([root.id]), shownAt = new Map([[root.id, -Infinity]]), screen = [];
+    let labelBoxes = [];
+    let cam = {x:0,y:0,z:0,distance:550,yaw:-.10,pitch:.10};
+    let goal = {...cam};
+    let orbit = {yaw:cam.yaw,pitch:cam.pitch};
+
+    let stats = {nodes:1, links:0}, manualView = false;
+    function rotate(v, yaw, pitch) {
+      const c = Math.cos(yaw), s = Math.sin(yaw), u = Math.cos(pitch), t = Math.sin(pitch);
+      const x = v.x*c - v.z*s, z = v.x*s + v.z*c;
+      return {x,y:v.y*u-z*t,z:v.y*t+z*u};
+    }
+    function project(n) {
+      const v = rotate({x:n.x-cam.x,y:n.y-cam.y,z:n.z-cam.z}, cam.yaw, cam.pitch);
+      const depth = cam.distance - v.z;
+      if (depth < 12) return null;
+      const scale = focal / depth;
+      return { x:width*.5 + v.x*scale, y:height*.49 - v.y*scale, depth, scale };
+    }
+    function fit(subset, compactness = 1) {
+      const yaw = orbit.yaw, pitch = orbit.pitch;
+      const bounds = {x0:Infinity,x1:-Infinity,y0:Infinity,y1:-Infinity,z0:Infinity,z1:-Infinity};
+      for (const n of subset) for (const k of ['x','y','z']) {
+        bounds[k+'0'] = Math.min(bounds[k+'0'], n[k]); bounds[k+'1'] = Math.max(bounds[k+'1'], n[k]);
+      }
+      const center = {x:(bounds.x0+bounds.x1)/2,y:(bounds.y0+bounds.y1)/2,z:(bounds.z0+bounds.z1)/2};
+      const availableX = Math.max(30, width*.5 - Math.min(width*.15, 79));
+      const availableY = Math.max(30, height*.46 - Math.min(height*.12, 63));
+      let distance = 0;
+      for (const n of subset) {
+        const p = rotate({x:n.x-center.x,y:n.y-center.y,z:n.z-center.z},yaw,pitch);
+        distance = Math.max(distance,p.z + focal*Math.max(Math.abs(p.x)/availableX,Math.abs(p.y)/availableY));
+      }
+      return {...center,yaw,pitch,distance:clamp(Math.max(focal*.45,distance*compactness),100,2700)};
+    }
+    function frameCamera(animate) {
+      if (!width || !height) return;
+      const all = nodes.filter(n=>visible.has(n.id));
+      const node = byId.get(focus) || root;
+      let next;
+      if (mode === 'item' && node.type === 'item') {
+        const hub = byId.get(node.group);
+        const intro = all.length < 6;
+        const distToHub = Math.hypot(node.x-hub.x,node.y-hub.y,node.z-hub.z);
+        const radius = Math.max(intro ? 62 : 94, distToHub * (intro ? 1.07 : 1.28));
+        const span = Math.max(65, Math.min(width*.68,height*.65));
+        next = {x:node.x*.78+hub.x*.22,y:node.y*.78+hub.y*.22,z:node.z*.78+hub.z*.22,
+          distance:clamp(2*radius*focal/span,125,1250),yaw:orbit.yaw,pitch:orbit.pitch};
+      } else if (mode === 'group' && node.type === 'group') {
+        next = fit(all.filter(n=>n.id===node.id || n.group===node.id), 1.15);
+      } else if (mode === 'transition' && node.type === 'group') {
+        const previous = groups[Math.max(0,node.index-1)].id;
+        next = fit(all.filter(n=>n.type==='root'||[previous,node.id].includes(n.id)||[previous,node.id].includes(n.group)),1.04);
+      } else next = fit(all,1.04);
+      goal=next;
+      if (!animate || reduced) cam={...goal};
+    }
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      const w = Math.max(1, rect.width), h = Math.max(1,rect.height);
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      if (w === width && h === height && pixelRatio === ratio) return;
+      width=w; height=h; pixelRatio=ratio;
+      canvas.width=Math.round(w*ratio); canvas.height=Math.round(h*ratio);
+      focal = Math.min(w,h)*1.18;
+      if (!manualView) frameCamera(false);
+    }
+    function setView({visible: visibleIds = [],focus: nextFocus = root.id,mode: nextMode = 'overview', animate = true}) {
+      const now=performance.now(), seen=new Set([root.id]);
+      for (const id of visibleIds) {
+        const n=byId.get(id);
+        if (!n) continue;
+        seen.add(id);
+        if (n.group) seen.add(n.group);
+      }
+      for (const id of seen) if (!visible.has(id)) shownAt.set(id,(animate && !reduced)?now:-Infinity);
+      visible=seen; focus=nextFocus; mode=nextMode; manualView=false;
+      if (!animate) for(const id of seen) shownAt.set(id,-Infinity);
+      stats={nodes:seen.size,links:edges.filter(e=>seen.has(e.source)&&seen.has(e.target)).length};
+      frameCamera(animate);
+    }
+    function radial(x,y,r,stops) {
+      if (r<.2) return;
+      const g=ctx.createRadialGradient(x,y,0,x,y,r);
+      for (const [offset,color] of stops) g.addColorStop(offset,color);
+      ctx.fillStyle=g; ctx.fillRect(x-r,y-r,2*r,2*r);
+    }
+    function circle(x,y,r,stroke,fill) {
+      if(r<.15) return;
+      ctx.beginPath();ctx.arc(x,y,r,0,PI2);
+      if(fill){ctx.fillStyle=fill;ctx.fill();}
+      if(stroke){ctx.strokeStyle=stroke;ctx.stroke();}
+    }
+    function line(x1,y1,x2,y2,color) {
+      ctx.strokeStyle=color;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+    }
+    function background(t) {
+      ctx.clearRect(0,0,width,height);
+      const field=ctx.createLinearGradient(0,0,width*.75,height);
+      field.addColorStop(0,'#0a0d11');field.addColorStop(.55,'#090b0f');field.addColorStop(1,'#08090c');
+      ctx.fillStyle=field;ctx.fillRect(0,0,width,height);
+      for(const s of dust) {
+        const shiftX=cam.yaw*27*s.depth+cam.x*.033*s.depth;
+        const shiftY=cam.pitch*25*s.depth+cam.y*.035*s.depth;
+        let x=((s.x*width+shiftX)%width+width)%width, y=((s.y*height+shiftY)%height+height)%height;
+        const a=s.opacity*(.80 + .2*Math.sin(s.phase + (reduced?0:t*.00037)));
+        ctx.fillStyle=rgba(s.color,a);ctx.fillRect(x,y,s.r,s.r);
+        if(s.r>1.14&&a>.41){ctx.fillStyle=rgba(s.color,a*.23);ctx.fillRect(x-1.4,y+.4,3.9,.6);}
+      }
+    }
+    function reveal(n,now) { return clamp((now-(shownAt.get(n.id)??-Infinity))/460,0,1); }
+    function paint(now) {
+      const dt=Math.min(.085,(now-lastFrame)/1000);lastFrame=now;
+      const ease=reduced?1:1-Math.exp(-dt*(manualView?14:4.35));
+      for(const k of ['x','y','z','distance','yaw','pitch'])cam[k]+=(goal[k]-cam[k])*ease;
+      ctx.setTransform(pixelRatio,0,0,pixelRatio,0,0);
+      background(now);
+      const points=new Map(), records=[];
+      for(const n of nodes) if(visible.has(n.id)) {
+        const p=project(n);
+        if(!p) continue;
+        const entry={...p,n,alpha:reveal(n,now)};
+        points.set(n.id,entry);records.push(entry);
+      }
+      for(const g of groups) {
+        const p=points.get(g.id); if(!p) continue;
+        const density=records.filter(s=>s.n.group===g.id).length;
+        const cloud=clamp(85*p.scale,60,210);
+        radial(p.x,p.y,cloud,[[0,rgba(p.n.rgb,.061+density*.007)],[.43,rgba(p.n.rgb,.031)],[1,rgba(p.n.rgb,0)]]);
+      }
+      const selected=byId.get(focus);
+      const selectedItem=mode==='item'&&selected&&selected.type==='item';
+      ctx.lineCap='round';
+      for(const e of edges) {
+        const a=points.get(e.source), b=points.get(e.target);
+        if(!a||!b)continue;
+        const active=e.source===focus||e.target===focus;
+        const color=e.type==='cross'?'177,193,205':(e.type==='trunk'?b.n.rgb:a.n.rgb);
+        const alpha=Math.min(a.alpha,b.alpha)*(active?.85:e.type==='cross'?.20:e.type==='trunk'?.40:.34)*(selectedItem&&!active?.69:1);
+        ctx.lineWidth=active?1.22:e.type==='trunk'?.95:.72;
+        ctx.setLineDash(e.type==='cross'?[2.3,5.6]:[]);
+        line(a.x,a.y,b.x,b.y,rgba(color,alpha));
+        if(active && !reduced && e.type!=='cross') {
+          const f=((now*.00015+.24)%1);
+          const x=a.x+(b.x-a.x)*f, y=a.y+(b.y-a.y)*f;
+          circle(x,y,1.35,null,rgba(color,.83));
+        }
+      }
+      ctx.setLineDash([]);
+      records.sort((a,b)=>b.depth-a.depth);
+      for(const p of records) {
+        const {x,y,n,alpha}=p;
+        if(x< -110 || x>width+110 || y< -110 || y>height+110 || alpha<=0)continue;
+        const selectedNode=(mode==='item'||mode==='group')&&n.id===focus;
+        const isHover=hover===n.id;
+        const pulse=reduced?1:.88+.12*Math.sin(now*.0016+(n.phase||0));
+        let r=n.type==='root'?5.5:n.type==='group'?5.4:3.15 + Math.min(3,Math.max(0,Number(n.importance)||0))*.25;
+        r*=clamp(Math.sqrt(p.scale),.74,1.65)*(selectedNode?1.78:1)*(.75+.25*alpha);
+        p.radius=r;
+        ctx.globalAlpha=alpha;
+        const glow=(selectedNode?11.9:n.type==='item'?6.1:9.1)*r;
+        radial(x,y,glow,[[0,rgba(n.rgb,.54*pulse)],[.16,rgba(n.rgb,.33*pulse)],
+          [.45,rgba(n.rgb,(selectedNode?.15:.11)*pulse)],[1,rgba(n.rgb,0)]]);
+        ctx.lineWidth=.8;
+        if(n.type==='root'||n.type==='group') {
+          const length=(n.type==='root'?5:3.6)*r;
+          for(const [ux,uy,extent] of [[.968,.251,length],[.251,-.968,length], [.863,-.505,length*.50],[.505,.863,length*.50]]) {
+            const beam=ctx.createLinearGradient(x-ux*extent,y-uy*extent,x+ux*extent,y+uy*extent);
+            beam.addColorStop(0,rgba(n.rgb,0));beam.addColorStop(.50,rgba(n.rgb,.95));beam.addColorStop(1,rgba(n.rgb,0));
+            line(x-ux*extent,y-uy*extent,x+ux*extent,y+uy*extent,beam);
+          }
+          ctx.lineWidth=.58;
+          circle(x,y,r*2.75,rgba(n.rgb,.32));
+        }
+        if(selectedNode||isHover) {
+          ctx.lineWidth=selectedNode?Math.max(2.0,r*.43):1.1;circle(x,y,r*2.75,rgba(n.rgb,.96));
+          ctx.lineWidth=.8;circle(x,y,r*(4.96+.12*pulse),rgba(n.rgb,.52));
+          if(selectedNode){
+            ctx.lineWidth=.5;circle(x,y,r*5.35,rgba(n.rgb,.16));
+            for(let j=0;j<6;j++){
+              const a=j*PI2/6+.18,c=Math.cos(a),s=Math.sin(a);
+              line(x+c*r*4.92,y+s*r*4.92,x+c*r*5.21,y+s*r*5.21,rgba(n.rgb,.60));
+            }
+          }
+        }
+        circle(x,y,r,rgba(n.rgb,.89),rgba(n.rgb,n.type==='item'?.77:.92));
+        circle(x-r*.12,y-r*.12,r*(n.type==='item'?.42:.65),null,rgba('255,250,228',.99));
+        ctx.globalAlpha=1;
+      }
+      screen=records;
+      paintLabels(records,now);
+    }
+    function paintLabels(records) {
+      const overview=mode==='overview'||mode==='transition';
+      const automaticClose=mode==='item'||mode==='group';
+      const focusNode=byId.get(focus);
+      const members=records.filter(p=>p.n.type==='item');
+      const zoomed=manualView && cam.distance<Math.max(220,focal*.85);
+      const close=manualView?zoomed:automaticClose;
+      const ranked=records.map(p=>{
+        const n=p.n, isFocus=n.id===focus&&(mode==='group'||mode==='item');
+        const own=(focusNode?.group===n.group||focusNode?.id===n.group)&&n.type==='item';
+        const prominent=isFocus||hover===n.id||n.type==='root'||n.type==='group';
+        if(!prominent && !(close&&(own||manualView||members.length<6)))return null;
+        const score=(hover===n.id?180:isFocus?160:n.type==='root'?125:n.type==='group'?110:40)+1/p.depth;
+        return {p,n,isFocus,score};
+      }).filter(Boolean).sort((a,b)=>b.score-a.score);
+      const used=[];labelBoxes=[];
+      const pad=width<510?7:12;
+      for(const entry of ranked) {
+        const {p,n,isFocus}=entry;
+        if(p.alpha<.4||p.x<pad||p.x>width-pad||p.y<pad||p.y>height-pad)continue;
+        const strong=isFocus||n.id===hover, hub=n.type==='group', isRoot=n.type==='root';
+        const text=String(n.name), textSize=strong?13:hub?12:11;
+        ctx.font=(strong||hub||isRoot?'600 ':'400 ')+textSize+'px '+(isRoot?mono:font);
+        const labelW=Math.ceil(ctx.measureText(text).width)+(strong?17:9), labelH=strong?25:19;
+        const r=p.radius||3, off=strong?r*3.69+8:r*1.9+4;
+        const candidates=strong
+          ? [[p.x+off,p.y-labelH/2],[p.x-off-labelW,p.y-labelH/2],[p.x-labelW/2,p.y+off],[p.x-labelW/2,p.y-off-labelH]]
+          : [[p.x-labelW/2,p.y+r*2.2+4],[p.x+off,p.y-labelH/2],[p.x-off-labelW,p.y-labelH/2],[p.x-labelW/2,p.y-off-labelH]];
+        let accepted=null;
+        for(let [x,y] of candidates) {
+          if(x<pad||x+labelW>width-pad||y<pad||y+labelH>height-pad) continue;
+          if(used.some(b=>x<b.x+b.w+3&&x+labelW+3>b.x&&y<b.y+b.h+2&&y+labelH+2>b.y))continue;
+          if(records.some(q=>q!==p&&q.x>x-2&&q.x<x+labelW+2&&q.y>y-2&&q.y<y+labelH+2))continue;
+          accepted={x,y,w:labelW,h:labelH};break;
+        }
+        if(!accepted && (strong||isRoot||hub&&overview)) {
+          const x=clamp(p.x+off,pad,Math.max(pad,width-pad-labelW));
+          const y=clamp(p.y-labelH/2,pad,Math.max(pad,height-pad-labelH));
+          if(strong || !used.some(b=>x<b.x+b.w&&x+labelW>b.x&&y<b.y+b.h&&y+labelH>b.y))accepted={x,y,w:labelW,h:labelH};
+        }
+        if(!accepted)continue;
+        const {x,y,w,h}=accepted;
+        used.push(accepted);labelBoxes.push({...accepted,id:n.id});
+        ctx.globalAlpha=p.alpha;ctx.textBaseline='middle';
+        if(strong) {
+          ctx.fillStyle=n.color;ctx.beginPath();ctx.roundRect(x,y,w,h,3);ctx.fill();
+          ctx.fillStyle='#121015';
+        } else {
+          ctx.fillStyle='rgba(8,11,15,.79)';ctx.fillRect(x,y,w,h);
+          ctx.fillStyle=isRoot?'#f5f4ee':hub?n.color:'#d5d0c7';
+        }
+        ctx.fillText(text,x+(strong?8.5:4.5),y+h/2+.4);
+        ctx.globalAlpha=1;
+      }
+    }
+    function loop(now) {
+      if(dead)return;
+      if(!document.hidden)paint(now);
+      else lastFrame=now;
+      frame=requestAnimationFrame(loop);
+    }
+    function reset() {
+      orbit={yaw:-.10,pitch:.10};mode='overview';focus=root.id;manualView=false;
+      frameCamera(true);
+    }
+    function zoom(factor) {
+      if(!Number.isFinite(factor)||factor<=0)return;
+      manualView=true;goal.distance=clamp(goal.distance/factor,88,2600);
+    }
+    const touches=new Map();
+    let pressed=null,lastPinch=0,dragged=false;
+    const coords=e=>{const r=canvas.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};};
+    function hit(at) {
+      const near=screen.filter(p=>p.alpha>.3).map(p=>({p,d:Math.hypot(p.x-at.x,p.y-at.y)}))
+        .filter(h=>h.d<Math.max(12,(h.p.radius||3)*2.5));
+      near.sort((a,b)=>a.d-b.d);
+      if(near.length)return near[0].p.n.id;
+      const label=labelBoxes.find(b=>at.x>=b.x&&at.x<=b.x+b.w&&at.y>=b.y&&at.y<=b.y+b.h);
+      return label?.id||null;
+    }
+    function start(e) {
+      if(e.pointerType==='mouse'&&e.button!==0)return;
+      const p=coords(e); touches.set(e.pointerId,p);canvas.setPointerCapture?.(e.pointerId);
+      if(touches.size===1){pressed={...p};dragged=false;lastPinch=0;}
+      if(touches.size===2){dragged=true;manualView=true;onManual?.();const [a,b]=[...touches.values()];lastPinch=Math.hypot(a.x-b.x,a.y-b.y);}
+    }
+    function move(e) {
+      const p=coords(e);
+      if(!touches.has(e.pointerId)){hover=hit(p);canvas.style.cursor=hover?'pointer':'grab';return;}
+      const previous=touches.get(e.pointerId);touches.set(e.pointerId,p);
+      if(touches.size>=2) {
+        const [a,b]=[...touches.values()],dist=Math.hypot(a.x-b.x,a.y-b.y);
+        if(lastPinch>1&&dist>1)zoom(dist/lastPinch);
+        lastPinch=dist;return;
+      }
+      if(!dragged&&pressed&&Math.hypot(p.x-pressed.x,p.y-pressed.y)<4)return;
+      if(!dragged){dragged=true;manualView=true;onManual?.();}
+      orbit.yaw=goal.yaw-(p.x-previous.x)*.007;
+      orbit.pitch=clamp(goal.pitch+(p.y-previous.y)*.006,-1.34,1.34);
+      goal.yaw=orbit.yaw;goal.pitch=orbit.pitch;canvas.style.cursor='grabbing';
+    }
+    function finish(e) {
+      if(!touches.has(e.pointerId))return;
+      const p=coords(e);touches.delete(e.pointerId);
+      if(!dragged&&pressed&&e.type==='pointerup'){const id=hit(p);if(id)onPick?.(id);}
+      if(!touches.size){pressed=null;lastPinch=0;canvas.style.cursor=hit(p)?'pointer':'grab';}
+    }
+    function leave(){if(!touches.size){hover=null;canvas.style.cursor='grab';}}
+    function wheel(e){e.preventDefault();onManual?.();zoom(Math.exp(-clamp(e.deltaY,-180,180)*.0018));}
+    canvas.style.touchAction='none';canvas.style.cursor='grab';
+    const handlers={pointerdown:start,pointermove:move,pointerup:finish,pointercancel:finish,pointerleave:leave,wheel};
+    for(const [key,fn] of Object.entries(handlers))canvas.addEventListener(key,fn,key==='wheel'?{passive:false}:undefined);
+    const observer=new ResizeObserver(resize);observer.observe(canvas);
+    resize();frame=requestAnimationFrame(loop);
+    return {setView,reset,zoom,getStats:()=>({...stats}),destroy(){
+      dead=true;cancelAnimationFrame(frame);observer.disconnect();
+      for(const [key,fn] of Object.entries(handlers))canvas.removeEventListener(key,fn);
+    }};
+  };
+})();
+
+(() => {
+  const $ = id => document.getElementById(id);
+  const pad = n => String(n).padStart(2,'0');
+  const icon = id => '<svg aria-hidden="true" class="icon"><use href="#i-'+id+'"/></svg>';
+  const items = GROUPS.flatMap(g => g.items.map(v=>({...v,group:g.id})));
+  const groups = new Map(GROUPS.map(g=>[g.id,g]));
+  const lookup = new Map(items.map((v,i)=>[v.id,{...v,order:i}]));
+  const expanded = new Set(['office']);
+  const prefersQuiet = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const button = (name,cls,fn) => {const b=document.createElement('button');b.type='button';b.className=cls;b.textContent=name;b.onclick=fn;return b};
+  const rows=new Map(), sections=new Map(), bands=new Map();
+  let cursor=0, count=1, mode='item', focus='teams', running=!prefersQuiet, timer=0, endAt=0, remaining=4200;
+  const sky=window.makeSky($('sky'),{groups:GROUPS,items:items.map(v=>({...v,name:v.short})),cross:CROSS,onPick:pick,onManual:()=>{pause();mode='manual';sync()}});
+  if(matchMedia('(pointer:coarse)').matches) $('help').textContent='单指旋转 · 双指缩放';
+  for(const g of GROUPS){
+    const band=button('','band',()=>jump(lookup.get(g.items[0].id).order));
+    band.style.setProperty('--tone',g.color);
+    band.innerHTML='<div class="band-cap"><span>'+g.name+'</span><em>0 / 5</em></div><div class="ticks">'+('<i class="tick"></i>'.repeat(5))+'</div>';
+    band.title='跳至'+g.name; $('bands').append(band);bands.set(g.id,band);
+    const sec=document.createElement('section');sec.className='grp';sec.style.setProperty('--tone',g.color);
+    const head=button('','gbutton',()=>{expanded.has(g.id)?expanded.delete(g.id):expanded.add(g.id);updateIndex()});head.setAttribute('aria-controls','list-'+g.id);
+    head.innerHTML='<i class="dot"></i>'+g.name+'<span class="num">0 / 5</span><span class="caret"></span>';
+    const inner=document.createElement('div');inner.className='items';inner.id='list-'+g.id;
+    for(const v of g.items){
+      const i=lookup.get(v.id).order;
+      const row=button('','row',()=>{jump(i);drawer(false)});
+      row.innerHTML='<span class="seq">'+pad(i+1)+'</span><span>'+v.name+'</span><i class="state"></i>';
+      rows.set(v.id,row);inner.append(row);
+    }
+    sec.append(head,inner);$('index').append(sec);sections.set(g.id,sec);
+  }
+  function updateIndex(){
+    for(const g of GROUPS){
+      const sec=sections.get(g.id),band=bands.get(g.id);
+      const quantity=g.items.filter(v=>lookup.get(v.id).order<count).length;
+      sec.classList.toggle('open',expanded.has(g.id));
+      sec.querySelector('.gbutton').setAttribute('aria-expanded',String(expanded.has(g.id)));
+      sec.querySelector('.num').textContent=band.querySelector('em').textContent=quantity+' / 5';
+      [...band.querySelectorAll('.tick')].forEach((el,i)=>el.classList.toggle('lit',i<quantity));
+      for(const v of g.items){
+        const row=rows.get(v.id), sel=(focus===v.id||mode==='transition'&&items[cursor].id===v.id);
+        row.classList.toggle('selected',sel);row.classList.toggle('seen',lookup.get(v.id).order<count);
+        if(sel)row.setAttribute('aria-current','step');else row.removeAttribute('aria-current');
+      }
+    }
+  }
+  function sync(){
+    const item=lookup.get(focus)||(mode==='transition'?items[cursor]:null);
+    const group=groups.get(item?.group||focus);
+    document.documentElement.style.setProperty('--focus',group?.color||'#f1ecdc');
+    $('progress').textContent=pad(count);
+    const stats=sky.getStats();
+    $('nodes').textContent=pad(stats.nodes);$('links').textContent=pad(stats.links);
+    $('cameraMode').textContent=({item:'节点近景',group:'分类星团',transition:'星团过渡',overview:'全局视野',manual:'自由视角'})[mode];
+    $('status').textContent=running?'自动漫游 · '+pad(cursor+1)+' / 20':mode==='overview'&&count===20?'全图已点亮':'漫游已暂停';
+    $('play').innerHTML=icon(running?'pause':'play')+(running?'暂停漫游':cursor===19&&count===20?'重新漫游':'继续漫游');
+    $('prev').disabled=cursor===0;$('next').disabled=cursor===items.length-1;
+    const root=focus==='codex', validItem=item&&!root;
+    $('detailTag').textContent=validItem?group.name+'  /  '+pad(lookup.get(item.id).order+1)+' OF 20':root?'CODEX  /  ROOT':'GROUP  /  '+group.en;
+    $('detailName').textContent=validItem?item.name:root?'Codex 工作全图':group.name;
+    $('detailText').textContent=validItem?item.detail:root?'四个分类中心连接各自的工作。点击分类或节点，可以查看对应项目和跨组关系。':group.items.map(v=>v.short).join(' · ');
+    const rels=$('relations');rels.replaceChildren();
+    if(validItem) for(const edge of CROSS.filter(e=>e.source===item.id||e.target===item.id)){
+      const other=lookup.get(edge.source===item.id?edge.target:edge.source);
+      const b=button('↗ '+edge.label,'relation',()=>jump(other.order));
+      b.title=edge.detail+' 点击查看'+other.name;b.setAttribute('aria-label',edge.label+'，查看'+other.name);rels.append(b);
+    }
+    updateIndex();
+  }
+  function render(animate=true){
+    sky.setView({visible:items.slice(0,count).map(v=>v.id),focus,mode,animate});sync();
+  }
+  function clearTimer(){if(timer)clearTimeout(timer);timer=0}
+  function arm(ms){clearTimer();remaining=ms;if(!running)return;endAt=performance.now()+ms;timer=setTimeout(tick,ms)}
+  function pause(){
+    if(running&&timer)remaining=Math.max(100,endAt-performance.now());
+    running=false;clearTimer();sync();
+  }
+  function follow(i){
+    const old=items[cursor]?.group;cursor=i;count=i+1;const item=items[i];
+    expanded.clear();expanded.add(item.group);
+    const cut=old!==item.group&&i>0;
+    mode=cut?'transition':'item';focus=cut?item.group:item.id;
+    render();arm(cut?3200:3000);
+  }
+  function tick(){
+    timer=0;if(!running)return;
+    if(mode==='transition'){mode='item';focus=items[cursor].id;render();arm(3000);return}
+    if(cursor<items.length-1){follow(cursor+1);return}
+    running=false;focus='codex';mode='overview';render();
+  }
+  function jump(i){
+    if(i<0||i>=items.length)return;
+    running=false;clearTimer();cursor=i;count=Math.max(count,i+1);remaining=3000;
+    const item=items[i];expanded.add(item.group);focus=item.id;mode='item';render();
+    const row=rows.get(item.id), nav=$('index'); if(nav.clientHeight && (row.offsetTop-nav.offsetTop<nav.scrollTop || row.offsetTop-nav.offsetTop+row.offsetHeight>nav.scrollTop+nav.clientHeight))nav.scrollTop=Math.max(0,row.offsetTop-nav.offsetTop-nav.clientHeight*.45);
+  }
+  function pick(id){
+    if(lookup.has(id)){jump(lookup.get(id).order);return}
+    if(id!=='codex'&&!groups.has(id))return;
+    pause();mode=id==='codex'?'overview':'group';focus=id;
+    if(groups.has(id))expanded.add(id);render();
+  }
+  function restart(){
+    clearTimer();running=true;cursor=0;count=1;mode='item';focus='teams';
+    expanded.clear();expanded.add('office');$('index').scrollTop=0;sky.reset();render(false);arm(4200);
+  }
+  function toggle(){
+    if(running){pause();return}
+    if(cursor===items.length-1&&mode!=='transition'){restart();return}
+    running=true;
+    if(mode!=='transition'){count=cursor+1;mode='item';focus=items[cursor].id;expanded.add(items[cursor].group);render()}
+    else sync();arm(remaining||3000);
+  }
+  function drawer(open){
+    document.body.classList.toggle('drawer-open',open);$('open').setAttribute('aria-expanded',String(open));
+    if(open){pause();$('close').focus()}else if(matchMedia('(max-width:800px)').matches)$('open').focus();
+  }
+  $('all').onclick=()=>{clearTimer();running=false;cursor=19;count=20;focus='codex';mode='overview';sky.reset();render();drawer(false)};
+  $('fit').onclick=()=>{pause();mode='overview';focus='codex';sky.reset();render()};
+  $('minus').onclick=()=>{pause();mode='manual';sky.zoom(.8);sync()};
+  $('plus').onclick=()=>{pause();mode='manual';sky.zoom(1.25);sync()};
+  $('replay').onclick=restart;$('play').onclick=toggle;$('next').onclick=()=>jump(cursor+1);$('prev').onclick=()=>jump(cursor-1);
+  $('open').onclick=()=>drawer(true);$('close').onclick=()=>drawer(false);$('shade').onclick=()=>drawer(false);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){drawer(false);return}
+    if(e.altKey||e.ctrlKey||e.metaKey||e.target.closest('button')||document.body.classList.contains('drawer-open'))return;
+    if(e.key===' '){e.preventDefault();toggle()}
+    if(e.key==='ArrowRight'){e.preventDefault();jump(cursor+1)}
+    if(e.key==='ArrowLeft'){e.preventDefault();jump(cursor-1)}
+  });
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&running)pause()});
+  render(false);arm(4200);
+})();
+
+</script></body></html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <title>Astra for Work</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body, main { width: 100%; height: 100%; margin: 0; background: #000; }
+    main { position: relative; overflow: hidden; color: #e6ddc9; }
+    canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+    canvas:active { cursor: grabbing; }
+    canvas:focus-visible { outline: 1px solid #98805a; outline-offset: -3px; }
+    h1 {
+      position: absolute; pointer-events: none; user-select: none;
+      top: max(env(safe-area-inset-top), 5.7%); left: max(env(safe-area-inset-left), 4.25%);
+      margin: 0; font: 400 clamp(1.6rem, 2.5vw, 3.2rem)/1.1 Baskerville, Georgia, serif;
+      text-shadow: 0 1px 8px #000, 0 0 15px #000;
+    }
+    #error { position: absolute; top: 24%; left: 7%; right: 7%; color: #e6ddc9;
+      font: 1rem/1.7 system-ui, sans-serif; white-space: pre-line; }
+    [hidden] { display: none; }
+  </style>
+  <script src="./viewer.js" defer></script>
+</head>
+<body>
+  <main>
+    <canvas id="sky" tabindex="0" aria-label="3D work atlas. Drag to orbit. Scroll or pinch to zoom. Use arrow keys to rotate, plus or minus to zoom, and Home to reset."></canvas>
+    <h1>Astra for Work</h1>
+    <p id="error" role="alert" lang="zh-CN" hidden></p>
+    <noscript lang="zh-CN">请启用 JavaScript 来显示互动星图。</noscript>
+  </main>
+</body>
+</html>

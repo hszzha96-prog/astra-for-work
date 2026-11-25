@@ -1,0 +1,604 @@
+{
+  "schema_version": "1.0",
+  "title": "passway extra work",
+  "subtitle": "The model for network for calculation and for designing",
+  "layout": {
+    "dimensions": 3,
+    "units": "scene_units",
+    "seed": 26981,
+    "relaxation_steps": 155,
+    "position_precision": 6,
+    "description": "取自互动星图初始布局，保留六位小数。根节点和分类中心固定，工作节点经过三维弹簧、排斥及锚点约束迭代。"
+  },
+  "nodes": [
+    {
+      "id": "codex",
+      "kind": "root",
+      "name": "Codex",
+      "name_en": "Codex",
+      "short_name": "Codex",
+      "description": "工作复盘星图的统一入口。",
+      "color": "#F4F4E9",
+      "position": {
+        "x": 0,
+        "y": 2,
+        "z": 12
+      }
+    },
+    {
+      "id": "office",
+      "kind": "group",
+      "name": "办公协作",
+      "name_en": "WORK",
+      "short_name": "办公协作",
+      "description": "办公协作的分类中心。",
+      "color": "#E8BB65",
+      "position": {
+        "x": -139,
+        "y": 79,
+        "z": 38
+      }
+    },
+    {
+      "id": "teams",
+      "kind": "work",
+      "group_id": "office",
+      "name": "Teams 小组协作",
+      "name_en": "Team collaboration",
+      "short_name": "Teams",
+      "description": "梳理小组分工、合并成员反馈，检查讲稿之间的衔接。Teams 是本次指定的开场入口。",
+      "color": "#E8BB65",
+      "position": {
+        "x": -159.228777,
+        "y": 33.934035,
+        "z": 72.871724
+      }
+    },
+    {
+      "id": "archive",
+      "kind": "work",
+      "group_id": "office",
+      "name": "Dropbox 资料归档",
+      "name_en": "Source archive",
+      "short_name": "资料归档",
+      "description": "按课程或摄影项目调取课件与原片，让后续制作能回到同一份来源。",
+      "color": "#E8BB65",
+      "position": {
+        "x": -100.916984,
+        "y": 43.548275,
+        "z": 10.578812
+      }
+    },
+    {
+      "id": "news",
+      "kind": "work",
+      "group_id": "office",
+      "name": "资讯收集与整理",
+      "name_en": "Research intake",
+      "short_name": "资讯整理",
+      "description": "把点点资讯、小红书笔记和来源链接放在一起，留下可追溯的原始材料。",
+      "color": "#E8BB65",
+      "position": {
+        "x": -89.367255,
+        "y": 101.954733,
+        "z": 60.570111
+      }
+    },
+    {
+      "id": "review",
+      "kind": "work",
+      "group_id": "office",
+      "name": "日常工作复盘",
+      "name_en": "Work review",
+      "short_name": "工作复盘",
+      "description": "从对话工作包提取完成事项、客户反馈和待调整的细节，写入每日或每周复盘。",
+      "color": "#E8BB65",
+      "position": {
+        "x": -149.392019,
+        "y": 137.835941,
+        "z": 36.977808
+      }
+    },
+    {
+      "id": "schedule",
+      "kind": "work",
+      "group_id": "office",
+      "name": "日程与学习提醒",
+      "name_en": "Scheduling",
+      "short_name": "日程提醒",
+      "description": "把定期自学、每周岗位扫描和线下活动安排进日程，跟踪下一次行动。",
+      "color": "#E8BB65",
+      "position": {
+        "x": -195.766244,
+        "y": 80.693693,
+        "z": 36.312429
+      }
+    },
+    {
+      "id": "design",
+      "kind": "group",
+      "name": "创意设计",
+      "name_en": "DESIGN",
+      "short_name": "创意设计",
+      "description": "创意设计的分类中心。",
+      "color": "#F19259",
+      "position": {
+        "x": 128,
+        "y": 88,
+        "z": -35
+      }
+    },
+    {
+      "id": "film",
+      "kind": "work",
+      "group_id": "design",
+      "name": "胶片调色与修图",
+      "name_en": "Film grading",
+      "short_name": "胶片调色",
+      "description": "根据原片光线调整影调、颗粒与裁切，用不同照片检验同一套胶片预设。",
+      "color": "#F19259",
+      "position": {
+        "x": 143.355575,
+        "y": 46.102845,
+        "z": 1.208929
+      }
+    },
+    {
+      "id": "exposure",
+      "kind": "work",
+      "group_id": "design",
+      "name": "双重曝光配片",
+      "name_en": "Double exposure",
+      "short_name": "双重曝光",
+      "description": "从照片库挑出可以叠合的两张素材，分别试做彩色与黑白版本，再按反馈复选。",
+      "color": "#F19259",
+      "position": {
+        "x": 187.450985,
+        "y": 82.81021,
+        "z": -42.823168
+      }
+    },
+    {
+      "id": "triptych",
+      "kind": "work",
+      "group_id": "design",
+      "name": "三拼照片叙事",
+      "name_en": "Photo triptychs",
+      "short_name": "三拼叙事",
+      "description": "把三张照片编排成一组，用画面顺序、留白和色调建立连贯的观看节奏。",
+      "color": "#F19259",
+      "position": {
+        "x": 158.156933,
+        "y": 139.638099,
+        "z": -37.33505
+      }
+    },
+    {
+      "id": "silhouette",
+      "kind": "work",
+      "group_id": "design",
+      "name": "剪影选片与成片",
+      "name_en": "Silhouette studies",
+      "short_name": "剪影创作",
+      "description": "从徕卡图库选出轮廓清楚的原片，比较不同剪影强度，按编号整理成片。",
+      "color": "#F19259",
+      "position": {
+        "x": 86.318896,
+        "y": 125.505479,
+        "z": -33.746677
+      }
+    },
+    {
+      "id": "slides",
+      "kind": "work",
+      "group_id": "design",
+      "name": "演示稿与图表设计",
+      "name_en": "Presentation design",
+      "short_name": "演示设计",
+      "description": "为课程汇报安排图表、页面顺序和口语讲稿，并根据组员反馈调整转场。",
+      "color": "#F19259",
+      "position": {
+        "x": 84.406629,
+        "y": 61.753415,
+        "z": -1.031167
+      }
+    },
+    {
+      "id": "learn",
+      "kind": "group",
+      "name": "课程学习",
+      "name_en": "LEARNING",
+      "short_name": "课程学习",
+      "description": "课程学习的分类中心。",
+      "color": "#76C7C1",
+      "position": {
+        "x": -148,
+        "y": -92,
+        "z": -41
+      }
+    },
+    {
+      "id": "abd",
+      "kind": "work",
+      "group_id": "learn",
+      "name": "ABD 开卷手册",
+      "name_en": "Open-book handbook",
+      "short_name": "ABD 手册",
+      "description": "把每周讲义整理为可检索的知识点、使用条件和英文答题模板。",
+      "color": "#76C7C1",
+      "position": {
+        "x": -107.617758,
+        "y": -122.107124,
+        "z": -19.07101
+      }
+    },
+    {
+      "id": "pal",
+      "kind": "work",
+      "group_id": "learn",
+      "name": "PAL 需求预测",
+      "name_en": "Demand forecasting",
+      "short_name": "PAL 预测",
+      "description": "用 Iowa Liquor Sales 数据预测门店与品类的下周需求，比较基线和模型表现。",
+      "color": "#76C7C1",
+      "position": {
+        "x": -105.224822,
+        "y": -67.48785,
+        "z": -63.807206
+      }
+    },
+    {
+      "id": "exam",
+      "kind": "work",
+      "group_id": "learn",
+      "name": "模拟题与错题复盘",
+      "name_en": "Exam practice",
+      "short_name": "模拟题复盘",
+      "description": "从读题、判断方法到组织英文答案，记录做题痕迹与需要再次巩固的知识点。",
+      "color": "#76C7C1",
+      "position": {
+        "x": -156.167345,
+        "y": -46.958843,
+        "z": -73.798994
+      }
+    },
+    {
+      "id": "ted",
+      "kind": "work",
+      "group_id": "learn",
+      "name": "TED 双语语料",
+      "name_en": "Bilingual corpus",
+      "short_name": "双语语料",
+      "description": "用视频和阅读材料积累双语表达，把标记的词汇、题目和反馈归到对应语料条目。",
+      "color": "#76C7C1",
+      "position": {
+        "x": -203.114442,
+        "y": -93.098142,
+        "z": -74.708943
+      }
+    },
+    {
+      "id": "selfstudy",
+      "kind": "work",
+      "group_id": "learn",
+      "name": "Consumer 与 Platform 自学",
+      "name_en": "Analytics self-study",
+      "short_name": "分析课自学",
+      "description": "用彩色手册和随机测试按章节推进 Consumer Analytics 与 Platform Analytics 的自学。",
+      "color": "#76C7C1",
+      "position": {
+        "x": -167.327146,
+        "y": -134.811671,
+        "z": -6.875744
+      }
+    },
+    {
+      "id": "career",
+      "kind": "group",
+      "name": "求职发展",
+      "name_en": "CAREER",
+      "short_name": "求职发展",
+      "description": "求职发展的分类中心。",
+      "color": "#C2A1DD",
+      "position": {
+        "x": 130,
+        "y": -105,
+        "z": 44
+      }
+    },
+    {
+      "id": "scan",
+      "kind": "work",
+      "group_id": "career",
+      "name": "新加坡岗位扫描",
+      "name_en": "Opportunity scan",
+      "short_name": "岗位扫描",
+      "description": "定期检索新加坡的数据分析、商业分析与 BI 实习和应届机会，筛出匹配职位。",
+      "color": "#C2A1DD",
+      "position": {
+        "x": 191.450532,
+        "y": -106.486147,
+        "z": 32.631302
+      }
+    },
+    {
+      "id": "tracker",
+      "kind": "work",
+      "group_id": "career",
+      "name": "岗位调度台",
+      "name_en": "Application tracker",
+      "short_name": "岗位调度台",
+      "description": "按状态整理岗位，跟踪投递进度，为每一条机会保留独立岗位卡入口。",
+      "color": "#C2A1DD",
+      "position": {
+        "x": 152.937814,
+        "y": -56.200902,
+        "z": 28.476692
+      }
+    },
+    {
+      "id": "jobcard",
+      "kind": "work",
+      "group_id": "career",
+      "name": "岗位卡 Dashboard",
+      "name_en": "Role dashboards",
+      "short_name": "岗位卡",
+      "description": "把职位要求、能力匹配与准备材料写进一张可浏览的岗位卡，沿用 YouTrip、Monee 等案例的做法。",
+      "color": "#C2A1DD",
+      "position": {
+        "x": 92.69156,
+        "y": -75.102729,
+        "z": 20.314049
+      }
+    },
+    {
+      "id": "cv",
+      "kind": "work",
+      "group_id": "career",
+      "name": "定制英文简历",
+      "name_en": "Targeted CV",
+      "short_name": "定制简历",
+      "description": "对照职位描述提取核心能力，从已有经历中挑出证据，调整英文表述并记录版本。",
+      "color": "#C2A1DD",
+      "position": {
+        "x": 90.34118,
+        "y": -133.627906,
+        "z": 8.269958
+      }
+    },
+    {
+      "id": "interview",
+      "kind": "work",
+      "group_id": "career",
+      "name": "面试题库与模拟问答",
+      "name_en": "Interview practice",
+      "short_name": "模拟面试",
+      "description": "根据职位描述、面经与 AI Agent 资料生成问题，用可勾选的题目练习回答。",
+      "color": "#C2A1DD",
+      "position": {
+        "x": 145.601368,
+        "y": -155.772195,
+        "z": 75.253123
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "codex",
+      "target": "office",
+      "kind": "category",
+      "label": "包含分类",
+      "reason": "Codex 汇总「办公协作」分类。"
+    },
+    {
+      "source": "office",
+      "target": "teams",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「Teams 小组协作」在本次复盘中归入「办公协作」。"
+    },
+    {
+      "source": "office",
+      "target": "archive",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「Dropbox 资料归档」在本次复盘中归入「办公协作」。"
+    },
+    {
+      "source": "office",
+      "target": "news",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「资讯收集与整理」在本次复盘中归入「办公协作」。"
+    },
+    {
+      "source": "office",
+      "target": "review",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「日常工作复盘」在本次复盘中归入「办公协作」。"
+    },
+    {
+      "source": "office",
+      "target": "schedule",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「日程与学习提醒」在本次复盘中归入「办公协作」。"
+    },
+    {
+      "source": "codex",
+      "target": "design",
+      "kind": "category",
+      "label": "包含分类",
+      "reason": "Codex 汇总「创意设计」分类。"
+    },
+    {
+      "source": "design",
+      "target": "film",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「胶片调色与修图」在本次复盘中归入「创意设计」。"
+    },
+    {
+      "source": "design",
+      "target": "exposure",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「双重曝光配片」在本次复盘中归入「创意设计」。"
+    },
+    {
+      "source": "design",
+      "target": "triptych",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「三拼照片叙事」在本次复盘中归入「创意设计」。"
+    },
+    {
+      "source": "design",
+      "target": "silhouette",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「剪影选片与成片」在本次复盘中归入「创意设计」。"
+    },
+    {
+      "source": "design",
+      "target": "slides",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「演示稿与图表设计」在本次复盘中归入「创意设计」。"
+    },
+    {
+      "source": "codex",
+      "target": "learn",
+      "kind": "category",
+      "label": "包含分类",
+      "reason": "Codex 汇总「课程学习」分类。"
+    },
+    {
+      "source": "learn",
+      "target": "abd",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「ABD 开卷手册」在本次复盘中归入「课程学习」。"
+    },
+    {
+      "source": "learn",
+      "target": "pal",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「PAL 需求预测」在本次复盘中归入「课程学习」。"
+    },
+    {
+      "source": "learn",
+      "target": "exam",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「模拟题与错题复盘」在本次复盘中归入「课程学习」。"
+    },
+    {
+      "source": "learn",
+      "target": "ted",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「TED 双语语料」在本次复盘中归入「课程学习」。"
+    },
+    {
+      "source": "learn",
+      "target": "selfstudy",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「Consumer 与 Platform 自学」在本次复盘中归入「课程学习」。"
+    },
+    {
+      "source": "codex",
+      "target": "career",
+      "kind": "category",
+      "label": "包含分类",
+      "reason": "Codex 汇总「求职发展」分类。"
+    },
+    {
+      "source": "career",
+      "target": "scan",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「新加坡岗位扫描」在本次复盘中归入「求职发展」。"
+    },
+    {
+      "source": "career",
+      "target": "tracker",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「岗位调度台」在本次复盘中归入「求职发展」。"
+    },
+    {
+      "source": "career",
+      "target": "jobcard",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「岗位卡 Dashboard」在本次复盘中归入「求职发展」。"
+    },
+    {
+      "source": "career",
+      "target": "cv",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「定制英文简历」在本次复盘中归入「求职发展」。"
+    },
+    {
+      "source": "career",
+      "target": "interview",
+      "kind": "membership",
+      "label": "包含工作",
+      "reason": "「面试题库与模拟问答」在本次复盘中归入「求职发展」。"
+    },
+    {
+      "source": "teams",
+      "target": "slides",
+      "kind": "workflow",
+      "label": "组员反馈 → 讲稿转场",
+      "reason": "小组汇报中，成员对论点衔接的反馈用于修订讲稿与页面次序。"
+    },
+    {
+      "source": "archive",
+      "target": "abd",
+      "kind": "workflow",
+      "label": "课件 → 开卷手册",
+      "reason": "Dropbox 中的 ABD 课件为各周手册提供原始内容。"
+    },
+    {
+      "source": "archive",
+      "target": "exposure",
+      "kind": "workflow",
+      "label": "原片 → 双重曝光配片",
+      "reason": "双重曝光项目从 Dropbox 的徕卡图库挑选可叠合的原片。"
+    },
+    {
+      "source": "pal",
+      "target": "slides",
+      "kind": "workflow",
+      "label": "预测结果 → 汇报图表",
+      "reason": "PAL 项目的模型比较、基线和特征实验进入小组汇报与模型讲稿。"
+    },
+    {
+      "source": "schedule",
+      "target": "selfstudy",
+      "kind": "workflow",
+      "label": "每日提醒 → 自学任务",
+      "reason": "Consumer 与 Platform 的章节自学任务按日程推进。"
+    },
+    {
+      "source": "schedule",
+      "target": "scan",
+      "kind": "workflow",
+      "label": "每周提醒 → 岗位扫描",
+      "reason": "新加坡实习和应届岗位按周扫描。"
+    },
+    {
+      "source": "news",
+      "target": "interview",
+      "kind": "workflow",
+      "label": "面经原帖 → 面试准备",
+      "reason": "小红书上收集的面经为面试流程和问题练习提供参考。"
+    }
+  ]
+}
